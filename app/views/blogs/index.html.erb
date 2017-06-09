@@ -2,28 +2,18 @@
 
 <h1>Blogs</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Body</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="button1"><%= link_to 'New Blog', new_blog_path %></div>
 
-  <tbody>
-    <% @blogs.each do |blog| %>
-      <tr>
-        <td><%= blog.title %></td>
-        <td><%= blog.body %></td>
-        <td><%= link_to 'Show', blog %></td>
-        <td><%= link_to 'Edit', edit_blog_path(blog) %></td>
-        <td><%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Blog', new_blog_path %>
+<% @blogs.each do |blog| %>
+    <hr>
+    <h2><%= link_to  blog.title, blog  %></h2>
+    <p><%= blog.body %></p>
+    <div class="container-button">
+      <div class="button">
+        <%= link_to 'Edit', edit_blog_path(blog) %>
+      </div>
+      <div class="button">
+        <%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </div>
+    </div>
+<% end %>

@@ -2,3 +2,53 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/*/
 
+body {
+	margin: 20px;
+}
+/** {
+	border: 1px solid black;
+}*/
+h1 {
+	text-align: center;
+	color: blue;
+}
+
+a {
+	text-decoration: none;
+}
+.container-button {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+.button {
+	width: 100px;
+	text-align: center;
+}
+.button a {
+	padding: 5px;
+	background-color: green;
+	color: black;
+	border-radius: 5px;
+	margin: 10px;
+	display: inline-block;
+	width: 50px;
+	text-align: center;
+	clear: both;
+}
+.button a:hover {
+	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.5);
+}
+.button1 a {
+	padding: 5px;
+	background-color: green;
+	color: black;
+	border-radius: 5px;
+	margin: 10px;
+	display: block;
+	width: 70px;
+	text-align: center;
+}
+.button1 a:hover {
+	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.5);
+}
