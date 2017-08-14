@@ -51,3 +51,13 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'bootstrap-sass'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
+gem 'simple_form'
+
+gem 'google-api-client', '~> 0.11', require: 'google/apis/calendar_v3'
+gem 'dotenv-rails', '~> 2.2', '>= 2.2.1'
+
+gem 'geocoder', '~> 1.4', '>= 1.4.4'
+gem 'gmaps4rails', '~> 2.1', '>= 2.1.2'
