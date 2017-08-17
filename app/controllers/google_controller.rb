@@ -65,23 +65,61 @@ class GoogleController < ApplicationController
     @event_list = service.list_events(params[:calendar_id])
 
   # This is my trying to intagrate the google maps and google calendar api!
-    # @user = []
-    # @event_list.items.each do |event|
-    #   @user << Geocoder.coordinates(event.location)
-    # end
+    # @location = []
+    # @hash = {}
+    count = 0
+    @glocation = []
+    puts "*"*50
+    p @state = request.location.state
+    puts "*"*50
+
+    @event_list.items.each do |event|
+        # byebug
+      if (Geocoder.coordinates(event.location)) != nil && (event.summary) != nil && event.location.match("UT") 
+        # && event.start.date_time == Date.today
+        @glocation << Geocoder.coordinates(event.location)
+        @glocation[count] << event.summary
+        @glocation[count] << event.start.date_time
+        @glocation[count] << event.end.date_time
+        count += 1
+      end
+    end
+    puts "*"*50
+    p @glocation
+    puts "*"*50
+    @hash = Gmaps4rails.build_markers(@glocation) do |loc, marker|
+      loc.to_a
+      marker.lat loc[0]
+      marker.lng loc[1]
+      #marker.json({:id => user.id })
+      # marker.picture({
+      #  "url" => "http://pocoinspired.com/t6/wp-content/uploads/2015/09/lunch-truck-it-favicon.jpg",
+      #  "width" => 32,
+      #  "height" => 32})
+      marker.infowindow "<img src='http://pocoinspired.com/t6/wp-content/uploads/2015/09/lunch-truck-it-favicon.jpg', width='50px' /> <br> <p>#{loc[2]}</p>"
+    end
+
     # geocoded_by :location
     # after_validation :geocode
-    # @hash = Gmaps4rails.build_markers(@user) do |user, marker|
-    #   marker.lat user.latitude
-    #   marker.lng user.longitude
-    #   marker.json({:id => user.id })
-    #   marker.picture({
-    #    "url" => "http://pocoinspired.com/t6/wp-content/uploads/2015/09/lunch-truck-it-favicon.jpg",
-    #    "width" => 32,
-    #    "height" => 32})
-    #   marker.infowindow "<img src='http://pocoinspired.com/t6/wp-content/uploads/2015/09/lunch-truck-it-favicon.jpg', width='50px' />
-    #     <br>
-    #     <p>#{user.title}</p>"
+    # puts @glocation[0]
+    # @glocation.each do |x|
+    #   if x != nil
+    #     x.to_a 
+    #    @location << x
+    #   end
+    # end
+
+    # @hash = Gmaps4rails.build_markers(@location) do |loc, marker|
+
+    #   loc.to_a
+    #   marker.lat loc[0]
+    #   marker.lng loc[1]
+    #   #marker.json({:id => user.id })
+    #   # marker.picture({
+    #   #  "url" => "http://pocoinspired.com/t6/wp-content/uploads/2015/09/lunch-truck-it-favicon.jpg",
+    #   #  "width" => 32,
+    #   #  "height" => 32})
+    #   marker.infowindow "<img src='http://pocoinspired.com/t6/wp-content/uploads/2015/09/lunch-truck-it-favicon.jpg', width='50px' /> <br> <p>#{loc.index}</p>"
     # end
   end
 
