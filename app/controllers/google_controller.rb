@@ -75,8 +75,7 @@ class GoogleController < ApplicationController
 
     @event_list.items.each do |event|
         # byebug
-      if (Geocoder.coordinates(event.location)) != nil && (event.summary) != nil && event.location.match("UT") 
-        # && event.start.date_time == Date.today
+      if (Geocoder.coordinates(event.location)) != nil && (event.summary) != nil && event.location.match("UT") && (event.start.date_time).to_date == Date.today
         @glocation << Geocoder.coordinates(event.location)
         @glocation[count] << event.summary
         @glocation[count] << event.start.date_time
