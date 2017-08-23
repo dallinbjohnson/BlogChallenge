@@ -29,8 +29,11 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
   markers = handler.addMarkers(<%=raw @hash.to_json %>);
   handler.bounds.extendWith(markers);
   handler.fitMapToBounds();
+  if (markers.length == 1) {
+  	handler.getMap().setZoom(17);
+  };
+  handler.centerOn(markers);
 });
-handler.map.centerOn(marker);
 </script>
 
 <!-- This is my trying to intagrate the google maps and google calendar api! End -->
