@@ -29,8 +29,8 @@ class GoogleController < ApplicationController
 
   def calendars
     client = Signet::OAuth2::Client.new({
-      client_id: ENV.fetch("GOOGLE_CLIENT_ID"),
-      client_secret: ENV.fetch("GOOGLE_CLIENT_SECRET"),
+      client_id: Rails.application.secrets.google_client_id,
+      client_secret: Rails.application.secrets.google_client_secret,
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token'
     })
 
@@ -64,21 +64,19 @@ class GoogleController < ApplicationController
 
     @event_list = service.list_events(params[:calendar_id])
 
-  # This is integrating the google maps and google calendar api!
+  # This is my trying to intagrate the google maps and google calendar api!
     # @location = []
     # @hash = {}
-
     count = 0
     @glocation = []
-
     puts "*"*50
     p @state = request.location.state
     puts "*"*50
 
     @event_list.items.each do |event|
         # byebug
-      if (Geocoder.coordinates(event.location)) != nil && (event.summary) != nil && event.location.match("UT")
-      # && (event.start.date_time).to_date == Date.today
+      if (Geocoder.coordinates(event.location)) != nil && (event.summary) != nil && event.location.match("UT") 
+        # && event.start.date_time == Date.today
         @glocation << Geocoder.coordinates(event.location)
         @glocation[count] << event.summary
         @glocation[count] << event.start.date_time
@@ -86,11 +84,9 @@ class GoogleController < ApplicationController
         count += 1
       end
     end
-
     puts "*"*50
     p @glocation
     puts "*"*50
-
     @hash = Gmaps4rails.build_markers(@glocation) do |loc, marker|
       loc.to_a
       marker.lat loc[0]
@@ -103,6 +99,8 @@ class GoogleController < ApplicationController
       marker.infowindow "<img src='http://pocoinspired.com/t6/wp-content/uploads/2015/09/lunch-truck-it-favicon.jpg', width='50px' /> <br> <p>#{loc[2]}</p>"
     end
 
+    # geocoded_by :location
+    # after_validation :geocode
     # puts @glocation[0]
     # @glocation.each do |x|
     #   if x != nil
@@ -112,6 +110,8 @@ class GoogleController < ApplicationController
     # end
 
     # @hash = Gmaps4rails.build_markers(@location) do |loc, marker|
+
+    #   loc.to_a
     #   marker.lat loc[0]
     #   marker.lng loc[1]
     #   #marker.json({:id => user.id })
@@ -125,8 +125,8 @@ class GoogleController < ApplicationController
 
   def new_event
     client = Signet::OAuth2::Client.new({
-      client_id: ENV.fetch("GOOGLE_CLIENT_ID"),
-      client_secret: ENV.fetch("GOOGLE_CLIENT_SECRET"),
+      client_id: Rails.application.secrets.google_client_id,
+      client_secret: Rails.application.secrets.google_client_secret,
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token'
     })
 
